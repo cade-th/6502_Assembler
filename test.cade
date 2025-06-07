@@ -1,0 +1,35 @@
+; Fibonacci calculator in 6502 Assembly
+; This calculates the nth Fibonacci number where n is stored at memory location $0200
+; and the result will be stored at $0201 (high byte) and $0202 (low byte).
+
+        .org $0600          ; Set the starting memory address for the program.
+
+START:
+        LDX #0             ; X = 0 (index of Fibonacci)
+        LDY #1             ; Y = 1 (F(1))
+        LDA #0             ; A = 0 (F(0))
+        STA $0202          ; Store F(0) (low byte) in memory location $0202
+        STY $0201          ; Store F(1) (high byte) in memory location $0201
+
+FIB_LOOP:
+        LDX $0200          ; Load the input n from memory ($0200)
+        CPX $0200          ; Compare X with n
+        BEQ DONE           ; If X == n, we're done.
+
+        LDA $0202          ; Load the previous Fibonacci number (F(n-2))
+        CLC
+        ADC $0201          ; Add the current Fibonacci number (F(n-1))
+        STA $0202          ; Store the result back as F(n)
+
+        LDA $0201          ; Load F(n-1)
+        STA $0201          ; Update F(n-1) to the new value (old F(n))
+        
+        INX                 ; Increment the index (n)
+        BNE FIB_LOOP        ; Repeat the loop until X == n
+
+DONE:
+        ; At this point, F(n) is stored in $0202 (low byte) and $0201 (high byte).
+        ; You can add code here to output the result or stop the program.
+        
+        BRK                 ; End of program, break.
+

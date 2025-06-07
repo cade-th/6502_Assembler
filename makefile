@@ -24,5 +24,8 @@ $(APP_BIN): $(SRC_FILES) $(LIB_FILES)
 clean:
 	rm -rf $(BUILD_DIR)
 
+run:
+	@cd build && ./app
+
 .PHONY: all clean
 
