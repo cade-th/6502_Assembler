@@ -9,7 +9,7 @@ int main() {
 	File source_code = io_file_read(file_path);		
 
 	if (!source_code.is_valid) {
-		ERROR_EXIT("Error reading in file: %s\n", file_path);	
+		return 1;
 	}
 
 	run_lexer_tests(source_code.data);

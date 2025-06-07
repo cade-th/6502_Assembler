@@ -7,6 +7,7 @@ typedef enum {
 	INCORRECT_TOKEN_TYPE,
 	INCORRECT_TOKEN_LITERAL,
 	INVALID_TOKEN,
+	ILLEGAL_TOKEN,
 } lexer_error_t;
 ERROR(lexer_error_t) lexer_error;
 
@@ -51,6 +52,8 @@ typedef struct {
 
 Token tok_new(Token_t type, char ch);
 Token next_token(Lexer *self);
+
+void read_char(Lexer *self);
 
 Lexer Lexer_new(char *input);
 lexer_error lex(Lexer *self);

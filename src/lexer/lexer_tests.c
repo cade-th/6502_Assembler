@@ -18,9 +18,11 @@ void run_lexer_tests(char *source_code_complex) {
 	{Eof, " "}
 	};
 
+        /*
 	Token expected_tokens_2[] = {
 	{Eof, " "}             
 	};
+        */
 
 	lexer_basic_test(source_code_simple, 9, expected_tokens_1);
 	// lexer_basic_test(source_code_complex.data, 37, expected_tokens_2);
@@ -75,6 +77,9 @@ void lexer_basic_test(char *input_1, int expected_tokens_size, Token expected_to
             break;
         case FUNCTION_BODY:
             printf("Write the lexer loser\n");
+            break;
+        case ILLEGAL_TOKEN:
+            printf("Illegal Token\n");
             break;
         case NUM_TOKENS:
             printf("Incorrect number of tokens. Expected Tokens: %d, Processed Tokens %d\n", expected_tokens_size, num_tokens);
