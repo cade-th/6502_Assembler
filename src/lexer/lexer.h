@@ -26,15 +26,20 @@ typedef enum {
 	// Delimiters
 	COMMA,     // ,
 	SEMICOLON, // ;
+	COLON, // :
 	LPAREN,    // (
 	RPAREN,    // )
 	HASH,      // # (immediate mode)
 	DOLLAR,    // $ (hex numbers)
+	ASSIGN,    // =
+	DOT,       // .
+	PERCENT,   // %
+	LOGICAL_OR, // |
 	
+	// 6502 Specific
+	LABEL,
+	COMMENT,
 	ILLEGAL,
-	ASSIGN,
-	LBRACKET,
-	RBRACKET,
 	Eof,
 } Token_t;
 
@@ -50,14 +55,8 @@ typedef struct {
 	char ch; // current char under examination
 } Lexer;
 
-Token tok_new(Token_t type, char ch);
-Token next_token(Lexer *self);
-
-void read_char(Lexer *self);
-
 Lexer Lexer_new(char *input);
 lexer_error lex(Lexer *self);
 
 void lexer_basic_test(char *input, int num_tokens, Token expected_tokens[]);
-void run_lexer_tests(char *source_code_complex);
-
+void run_lexer_tests(char *source_code_simple, char *source_code_less_simple);

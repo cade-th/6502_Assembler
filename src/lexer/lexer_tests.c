@@ -3,29 +3,53 @@
 #include <string.h>
 #include "../util/dyn_array.h"
 
-void run_lexer_tests(char *source_code_complex) {
-	char *source_code_simple = "=+(){},;";
+/*
+    Source code simple:
 
+    LDA #$10
+
+*/
+
+/*
+    Source code less simple:
+
+    LDX #0             ; X = 0 (index of Fibonacci)
+    LDY #1             ; Y = 1 (F(1))
+    LDA #0             ; A = 0 (F(0))
+    STA $0202          ; Store F(0) (low byte) in memory location $0202
+    STY $0201          ; Store F(1) (high byte) in memory location $0201
+*/
+
+void run_lexer_tests(char *source_code_simple, char *source_code_less_simple) {
 	Token expected_tokens_1[] = {
-	{ASSIGN, "="},
-	{PLUS, "+"},
-	{LPAREN, "("},
-	{RPAREN, ")"},
-	{LBRACKET, "{"},
-	{RBRACKET, "}"},
-	{COMMA, ","},
-	{SEMICOLON, ";"},
-	{Eof, " "}
+            {IDENT, "LDA"},
+            {HASH, "#"},
+            {DOLLAR, "$"},
+            {INT, "10"},
+            {Eof, " "}
 	};
 
-        /*
-	Token expected_tokens_2[] = {
-	{Eof, " "}             
-	};
-        */
+        Token expected_tokens_2[] = {
+            {IDENT, "LDX"},     
+            {HASH, "#"},        
+            {INT, "0"},         
+            {IDENT, "LDY"},     
+            {HASH, "#"},        
+            {INT, "1"},         
+            {IDENT, "LDA"},     
+            {HASH, "#"},        
+            {INT, "0"},         
+            {IDENT, "STA"},     
+            {DOLLAR, "$"},      
+            {INT, "0202"},      
+            {IDENT, "STY"},     
+            {DOLLAR, "$"},      
+            {INT, "0201"},      
+            {Eof, " "}          
+        };
 
-	lexer_basic_test(source_code_simple, 9, expected_tokens_1);
-	// lexer_basic_test(source_code_complex.data, 37, expected_tokens_2);
+	lexer_basic_test(source_code_simple, 5, expected_tokens_1);
+	lexer_basic_test(source_code_less_simple,16, expected_tokens_2);
 	}
 
 void lexer_basic_test(char *input_1, int expected_tokens_size, Token expected_tokens[]) {
@@ -36,6 +60,7 @@ void lexer_basic_test(char *input_1, int expected_tokens_size, Token expected_to
     int num_tokens;
     Token *tokens = (Token*)error.data;
     num_tokens = ARRAY_LENGTH(tokens);
+    printf("Number of tokens to be checked: %d\n", num_tokens);
 
     if (error.ok) {
         if (num_tokens != expected_tokens_size) {
