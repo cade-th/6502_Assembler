@@ -128,8 +128,3 @@ Lexer Lexer_new(char *input) {
 	read_char(&lexer);
 	return lexer; 
 }
-
-
-
-
-

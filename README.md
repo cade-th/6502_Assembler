@@ -1,28 +1,7 @@
 # Outline
 
-Passing Basic Lexer Test:
-
-I.
-
-II.
-
-III.
-
-IV.
-
-V.
-
-Passsing Complex Lexer Test:
-
-I.
-
-II.
-
-III.
-
-IV.
-
-V.
-
-
-
+Lexer -> array of tokens
+array of tokens -> parser
+parser -> Abstract Syntax Tree
+AST -> evaluator
+evaluator -> array of instructions -> generate binary

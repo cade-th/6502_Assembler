@@ -1,7 +1,5 @@
 #include "io.h"
-#include "error.h"
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
 
 // 20 mib, can probably change this to a higher value without issue
@@ -13,7 +11,8 @@ File io_file_read(char *path) {
     File file = { .is_valid = false };
     FILE *fp = fopen(path, "rb");
     if (ferror(fp)) {
-        ERROR_RETURN(file, IO_READ_ERROR_GENERAL, path, errno);
+        // ERROR_RETURN(file, IO_READ_ERROR_GENERAL, path, errno);
+        printf("Fix the io module\n");
     }
     char *data = NULL;
     char *tmp;
@@ -25,12 +24,14 @@ File io_file_read(char *path) {
             size = used + IO_READ_CHUNK_SIZE + 1;
             if (size <= used) {
                 free(data);
-                ERROR_RETURN(file, "Input file too large: %s\n", path);
+                // ERROR_RETURN(file, "Input file too large: %s\n", path);
+                printf("Fix the io module\n");
             }
             tmp = realloc(data, size);
             if (!tmp) {
                 free(data);
-                ERROR_RETURN(file, IO_READ_ERROR_MEMORY, path);
+                // ERROR_RETURN(file, IO_READ_ERROR_MEMORY, path);
+                printf("Fix the io module\n");
             }
             data = tmp;
         }
@@ -41,12 +42,14 @@ File io_file_read(char *path) {
     }
     if (ferror(fp)) {
         free(data);
-        ERROR_RETURN(file, IO_READ_ERROR_GENERAL, path, errno);
+        // ERROR_RETURN(file, IO_READ_ERROR_GENERAL, path, errno);
+        printf("Fix the io module\n");
     }
     tmp = realloc(data, used + 1);
     if (!tmp) {
         free(data);
-        ERROR_RETURN(file, IO_READ_ERROR_MEMORY, path);
+        // ERROR_RETURN(file, IO_READ_ERROR_MEMORY, path);
+        printf("Fix the io module\n");
     }
     data = tmp;
     data[used] = 0;

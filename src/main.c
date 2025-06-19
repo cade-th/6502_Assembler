@@ -2,6 +2,16 @@
 #include "util/io.h"
 #include "util/error.h"
 #include "lexer/lexer.h"
+#include "parser/parser.h"
+#include "evaluator/evaluator.h"
+
+/*
+Lexer -> array of tokens
+array of tokens -> parser
+parser -> Abstract Syntax Tree
+AST -> evaluator
+evaluator -> array of instructions -> generate binary
+*/
 
 int main() {
 
@@ -19,6 +29,8 @@ int main() {
 		return 1;
 	}
 
-	run_lexer_tests(source_code_simple.data,source_code_not_simple.data);
+	// run_lexer_tests(source_code_simple.data,source_code_not_simple.data);
+	// run_parser_tests();
+	run_evaluator_tests();
 	return 0;
 }	

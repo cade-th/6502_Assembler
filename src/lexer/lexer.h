@@ -17,12 +17,6 @@ typedef enum {
 	INT,    // 1234567890
 	HEX,    // $1234
 	
-	// Operators
-	PLUS,     // +
-	MINUS,    // -
-	ASTERISK, // *
-	SLASH,    // /
-	
 	// Delimiters
 	COMMA,     // ,
 	SEMICOLON, // ;
@@ -58,5 +52,6 @@ typedef struct {
 Lexer Lexer_new(char *input);
 lexer_error lex(Lexer *self);
 
+// lexer test functions
 void lexer_basic_test(char *input, int num_tokens, Token expected_tokens[]);
 void run_lexer_tests(char *source_code_simple, char *source_code_less_simple);

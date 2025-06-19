@@ -29,7 +29,6 @@ FIB_LOOP:
 
 DONE:
         ; At this point, F(n) is stored in $0202 (low byte) and $0201 (high byte).
-        ; You can add code here to output the result or stop the program.
         
         BRK                 ; End of program, break.
 
