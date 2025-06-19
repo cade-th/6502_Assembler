@@ -1,7 +1,7 @@
-#include "lexer.h"	
+#include "../src/lexer/lexer.h"	
 #include <stdio.h>
 #include <string.h>
-#include "../util/dyn_array.h"
+#include "../src/util/dyn_array.h"
 
 /*
     Source code simple:
@@ -60,7 +60,6 @@ void lexer_basic_test(char *input_1, int expected_tokens_size, Token expected_to
     int num_tokens;
     Token *tokens = (Token*)error.data;
     num_tokens = ARRAY_LENGTH(tokens);
-    printf("Number of tokens to be checked: %d\n", num_tokens);
 
     if (error.ok) {
         if (num_tokens != expected_tokens_size) {

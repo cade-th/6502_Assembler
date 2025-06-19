@@ -4,6 +4,8 @@
 
 typedef enum {
 	EVAL_BODY,
+	UNKNOWN,
+	SUCCESS,
 } Evaluator_Error_t;
 ERROR(Evaluator_Error_t) eval_error;
 

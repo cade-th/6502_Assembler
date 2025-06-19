@@ -24,6 +24,7 @@ eval_error evaluate(Evaluator *self) {
 	if (!file) {
 		perror("Failed to open output file");
 		error.ok = false;
+		error.type = UNKNOWN;
 		return error;
 	}
 
@@ -43,6 +44,7 @@ eval_error evaluate(Evaluator *self) {
 	fclose(file);
 
 	error.ok = true;
+	error.type = SUCCESS;
 	return error;
 }
 

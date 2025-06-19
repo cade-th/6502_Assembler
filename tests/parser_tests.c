@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../src/parser/parser.h"
 #include <stdio.h>
 
 
@@ -28,7 +28,28 @@ void run_parser_tests() {
 	{Eof, " "}
     };
     
+
+    Token input_2[] = {
+	{IDENT, "LDX"},     
+	{HASH, "#"},        
+	{INT, "0"},         
+	{IDENT, "LDY"},     
+	{HASH, "#"},        
+	{INT, "1"},         
+	{IDENT, "LDA"},     
+	{HASH, "#"},        
+	{INT, "0"},         
+	{IDENT, "STA"},     
+	{DOLLAR, "$"},      
+	{INT, "0202"},      
+	{IDENT, "STY"},     
+	{DOLLAR, "$"},      
+	{INT, "0201"},      
+	{Eof, " "}          
+    };
+    
     parser_basic_test(input_1);
+    // parser_basic_test(input_2);
 
 }
 

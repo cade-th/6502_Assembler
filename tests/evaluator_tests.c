@@ -1,4 +1,4 @@
-#include "evaluator.h"
+#include "../src/evaluator/evaluator.h"
 #include <stdio.h>
 
 
@@ -43,7 +43,6 @@ void run_evaluator_tests() {
 void evaluator_basic_test(Instruction *input) {
 	eval_error error;
 
-
 	Evaluator eval = eval_new(input);
 	error = evaluate(&eval);
 
@@ -58,6 +57,9 @@ void evaluator_basic_test(Instruction *input) {
 		switch (error.type) {
 			case EVAL_BODY:
 				printf("Write the evaluator\n");
+				break;
+			case UNKNOWN:
+				printf("Probably file IO error\n");
 				break;
 			default:
 				printf("Unknown error\n");

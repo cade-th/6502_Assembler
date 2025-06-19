@@ -10,10 +10,20 @@
 File io_file_read(char *path) {
     File file = { .is_valid = false };
     FILE *fp = fopen(path, "rb");
+    
+    // Check if file opened successfully
+    if (!fp) {
+        printf("Failed to open file: %s\n", path);
+        return file;
+    }
+    
     if (ferror(fp)) {
         // ERROR_RETURN(file, IO_READ_ERROR_GENERAL, path, errno);
         printf("Fix the io module\n");
+        fclose(fp);
+        return file;
     }
+    
     char *data = NULL;
     char *tmp;
     int used = 0;
@@ -26,12 +36,16 @@ File io_file_read(char *path) {
                 free(data);
                 // ERROR_RETURN(file, "Input file too large: %s\n", path);
                 printf("Fix the io module\n");
+                fclose(fp);
+                return file;
             }
             tmp = realloc(data, size);
             if (!tmp) {
                 free(data);
                 // ERROR_RETURN(file, IO_READ_ERROR_MEMORY, path);
                 printf("Fix the io module\n");
+                fclose(fp);
+                return file;
             }
             data = tmp;
         }
@@ -44,17 +58,22 @@ File io_file_read(char *path) {
         free(data);
         // ERROR_RETURN(file, IO_READ_ERROR_GENERAL, path, errno);
         printf("Fix the io module\n");
+        fclose(fp);
+        return file;
     }
     tmp = realloc(data, used + 1);
     if (!tmp) {
         free(data);
         // ERROR_RETURN(file, IO_READ_ERROR_MEMORY, path);
         printf("Fix the io module\n");
+        fclose(fp);
+        return file;
     }
     data = tmp;
     data[used] = 0;
     file.data = data;
     file.len = used;
     file.is_valid = true;
+    fclose(fp);
     return file;
 }
