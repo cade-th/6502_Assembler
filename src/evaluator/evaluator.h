@@ -22,3 +22,5 @@ void generate_binary();
 
 void run_evaluator_tests();
 void evaluator_basic_test(Instruction *input);
+
+int run_end_to_end_tests();

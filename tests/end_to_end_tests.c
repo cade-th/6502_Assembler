@@ -1,9 +1,9 @@
-#include "util/io.h"
-#include "lexer/lexer.h"
-#include "parser/parser.h"
-#include "evaluator/evaluator.h"
+#include "../src/util/io.h"
+#include "../src/lexer/lexer.h"
+#include "../src/parser/parser.h"
+#include "../src/evaluator/evaluator.h"
 
-int main() {
+int run_end_to_end_tests() {
 
 	lexer_error lex_error;
 	parser_error parse_error;
