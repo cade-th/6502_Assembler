@@ -5,7 +5,6 @@
 typedef enum {
 	EVAL_BODY,
 	UNKNOWN,
-	SUCCESS,
 } Evaluator_Error_t;
 ERROR(Evaluator_Error_t) eval_error;
 
@@ -23,4 +22,4 @@ void generate_binary();
 void run_evaluator_tests();
 void evaluator_basic_test(Instruction *input);
 
-int run_end_to_end_tests();
+void run_end_to_end_tests();

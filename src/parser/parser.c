@@ -6,6 +6,11 @@
 
 static parser_error error = { .ok = true};
 
+static OPCODE lookup_opcode(char *opcode_string) {
+    OPCODE return_code;
+    return return_code;
+}
+
 static void parse_instruction(Instruction *current_instruction, Parser *self) {
     if (strcmp(self->current_token->literal, "LDA") == 0) {
 	current_instruction->opcode = LDA;	
@@ -19,7 +24,11 @@ static void parse_instruction(Instruction *current_instruction, Parser *self) {
 	current_instruction->is_hex = true;
     }
     self->current_token++;
-    current_instruction->operand = atoi(self->current_token->literal);
+    if (current_instruction->is_hex) {
+        current_instruction->operand = (int)strtol(self->current_token->literal, NULL, 16);
+    } else {
+        current_instruction->operand = atoi(self->current_token->literal);
+    }
     self->current_token++;
 }
 
@@ -33,6 +42,7 @@ parser_error parse(Parser *self) {
 	    case IDENT:
 		parse_instruction(&current_instruction, self);
 		break;
+	    // Add support for macros here soon
 	    default : {
 	    };
 	};

@@ -2,8 +2,6 @@
 #include "../util/dyn_array.h"
 #include <stdio.h>
 
-static eval_error error = { .ok = true};
-
 Evaluator eval_new(Instruction *input) {
 	Evaluator eval;
 	eval.input = input;
@@ -19,6 +17,7 @@ static void serialize_instruction(unsigned char *out, Instruction instr) {
 }
 
 eval_error evaluate(Evaluator *self) {
+	eval_error error = {0}; // Initialize to zero
 	const char *out_path = "simple.hex";
 	FILE *file = fopen(out_path, "wb");
 	if (!file) {
@@ -40,11 +39,11 @@ eval_error evaluate(Evaluator *self) {
 			fwrite(&buffer[1], 1, 1, file);
 		}
 	}
-
 	fclose(file);
-
+	
+	// Set success
 	error.ok = true;
-	error.type = SUCCESS;
+	error.type = EVAL_BODY; // Set a valid type for success case
 	return error;
 }
 

@@ -1,8 +1,7 @@
 #include "../src/evaluator/evaluator.h"
 #include <stdio.h>
-
-
 #include <string.h> // for memcmp
+
 
 static bool binary_is_equal(const char *file1_path, const char *file2_path) {
 	FILE *file1 = fopen(file1_path, "rb");
@@ -41,8 +40,8 @@ void run_evaluator_tests() {
 }
 
 void evaluator_basic_test(Instruction *input) {
-	eval_error error;
 
+	eval_error error; 
 	Evaluator eval = eval_new(input);
 	error = evaluate(&eval);
 
@@ -51,6 +50,7 @@ void evaluator_basic_test(Instruction *input) {
 
 	if (error.ok && binary_is_equal(actual_path, expected_path)) {
 		printf("Evaluator Test: PASS\n");
+		return;
 	} else {
 		printf("Evaluator Test: FAIL\n");
 
@@ -63,8 +63,10 @@ void evaluator_basic_test(Instruction *input) {
 				break;
 			default:
 				printf("Unknown error\n");
+				break;
 		}
 	}
+	return;
 }
 
 

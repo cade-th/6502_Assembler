@@ -105,6 +105,9 @@ typedef enum {
 
 } OPCODE;
 
+#define OPCODE_MAP \
+	X(
+
 typedef struct {
 	Addressing_Mode mode;	
 	OPCODE opcode;
@@ -142,4 +145,4 @@ parser_error parse(Parser *self);
 Parser parser_new(Token *input);
 
 void run_parser_tests();
-void parser_basic_test(Token *input);
+void parser_basic_test(Token *input, Instruction *expected_instructions);

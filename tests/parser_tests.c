@@ -30,37 +30,35 @@ void run_parser_tests() {
     
 
     Token input_2[] = {
-	{IDENT, "LDX"},     
-	{HASH, "#"},        
-	{INT, "0"},         
-	{IDENT, "LDY"},     
-	{HASH, "#"},        
-	{INT, "1"},         
-	{IDENT, "LDA"},     
-	{HASH, "#"},        
-	{INT, "0"},         
-	{IDENT, "STA"},     
-	{DOLLAR, "$"},      
-	{INT, "0202"},      
-	{IDENT, "STY"},     
-	{DOLLAR, "$"},      
-	{INT, "0201"},      
+	{IDENT, "LDX"}, {HASH, "#"}, {INT, "0"},         
+	{IDENT, "LDY"}, {HASH, "#"}, {INT, "1"},         
+	{IDENT, "LDA"}, {HASH, "#"}, {INT, "0"},         
+	{IDENT, "STA"}, {DOLLAR, "$"}, {INT, "0202"},      
+	{IDENT, "STY"}, {DOLLAR, "$"}, {INT, "0201"},      
 	{Eof, " "}          
     };
-    
-    parser_basic_test(input_1);
-    // parser_basic_test(input_2);
+
+    Instruction expected_instructions_1[] = {
+	{IMMEDIATE, LDA, 16, true},
+    };
+    Instruction expected_instructions_2[] = {
+	{IMMEDIATE, LDX, 0, true},
+	{IMMEDIATE, LDY, 1, true},
+	{IMMEDIATE, LDA, 0, true},
+	{IMMEDIATE, STA, 0202, false},
+	{IMMEDIATE, STY, 0201, false},
+    };
+
+    parser_basic_test(input_1, expected_instructions_1);
+    parser_basic_test(input_2, expected_instructions_2);
 
 }
 
-void parser_basic_test(Token *input) {
+void parser_basic_test(Token *input, Instruction *expected_instructions) {
 
     parser_error error;
 
-    Instruction expected_instructions[] = {
-	{IMMEDIATE, LDA, 10, true},
-    };
-
+    
     Parser parser = parser_new(input);
 
     error = parse(&parser);
