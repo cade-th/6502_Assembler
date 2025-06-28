@@ -1,4 +1,5 @@
 #include "../src/parser/parser.h"
+#include "../src/util/dyn_array.h"
 #include <stdio.h>
 
 
@@ -42,19 +43,19 @@ void run_parser_tests() {
 	{IMMEDIATE, LDA, 16, true},
     };
     Instruction expected_instructions_2[] = {
-	{IMMEDIATE, LDX, 0, true},
-	{IMMEDIATE, LDY, 1, true},
-	{IMMEDIATE, LDA, 0, true},
-	{IMMEDIATE, STA, 0202, false},
-	{IMMEDIATE, STY, 0201, false},
+	{IMMEDIATE, LDX, 0, false},
+	{IMMEDIATE, LDY, 1, false},
+	{IMMEDIATE, LDA, 0, false},
+	{IMMEDIATE, STA, 0x202, true},
+	{IMMEDIATE, STY, 0x201, true},
     };
 
-    parser_basic_test(input_1, expected_instructions_1);
-    parser_basic_test(input_2, expected_instructions_2);
+    parser_basic_test(input_1, expected_instructions_1, 1);
+    parser_basic_test(input_2, expected_instructions_2, 5);
 
 }
 
-void parser_basic_test(Token *input, Instruction *expected_instructions) {
+void parser_basic_test(Token *input, Instruction *expected_instructions, int expected_count) {
 
     parser_error error;
 
@@ -66,11 +67,23 @@ void parser_basic_test(Token *input, Instruction *expected_instructions) {
     Instruction *result_instructions = error.data;
 
     if (error.ok) {
-
-	if (instru_is_equal(&error, result_instructions[0], expected_instructions[0])) {
-	    printf("Parser Test: PASS\n");
-	    return;
-	}
+        // Check if we have the right number of instructions
+        int result_count = ARRAY_LENGTH(result_instructions);
+        if (result_count != expected_count) {
+            printf("Parser Test: FAIL - Expected %d instructions, got %d\n", expected_count, result_count);
+            return;
+        }
+        
+        // Check each instruction
+        for (int i = 0; i < expected_count; i++) {
+            if (!instru_is_equal(&error, result_instructions[i], expected_instructions[i])) {
+                printf("Parser Test: FAIL - Instruction %d mismatch\n", i);
+                return;
+            }
+        }
+        
+        printf("Parser Test: PASS\n");
+        return;
     }
     printf("Parser Test: FAIL\n");
     switch (error.type) {
