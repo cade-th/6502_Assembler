@@ -9,7 +9,7 @@ int main() {
 	parser_error parse_error;
 	eval_error eval_error;
 
-	char *file_path_simple = "../6502/simple.cade";
+	char *file_path_simple = "../6502/less_simple.cade";
 	File source_code_simple = io_file_read(file_path_simple);		
 
 	if (!source_code_simple.is_valid) {

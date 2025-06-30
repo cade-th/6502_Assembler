@@ -53,7 +53,8 @@ void run_end_to_end_tests() {
 	Parser parser = parser_new(lex_error.data);
 	parse_error = parse(&parser);
 
-	Evaluator eval = eval_new(parse_error.data);
+	int num_instructions = parser.instruction_count;
+	Evaluator eval = eval_new(parse_error.data, num_instructions);
 	eval_error = evaluate(&eval);
 
 	const char *actual_path = "simple.hex";
@@ -61,20 +62,50 @@ void run_end_to_end_tests() {
 
 	if (eval_error.ok && binary_is_equal(actual_path, expected_path) ) {
 		printf("End to End Test: PASS\n");
-		 return;
+	} else {
+		switch (eval_error.type) {
+			case EVAL_BODY:
+				printf("Write this test\n");
+				break;
+			case UNKNOWN:
+				printf("Unknown error\n");
+				break;
+		}
 	}
 
-	switch (eval_error.type) {
-		case EVAL_BODY:
-			printf("Write this test\n");
-			break;
-		case UNKNOWN:
-			printf("Unknown error\n");
-			break;
+	// Test less_simple.cade
+	char *file_path_less_simple = "../6502/less_simple.cade";
+	File source_code_less_simple = io_file_read(file_path_less_simple);		
+
+	if (!source_code_less_simple.is_valid) {
+		return;
+	}
+	
+	Lexer lexer2 = Lexer_new(source_code_less_simple.data);
+	lex_error = lex(&lexer2);
+
+	Parser parser2 = parser_new(lex_error.data);
+	parse_error = parse(&parser2);
+
+	int num_instructions2 = parser2.instruction_count;
+	Evaluator eval2 = eval_new(parse_error.data, num_instructions2);
+	eval_error = evaluate(&eval2);
+
+	const char *actual_path2 = "less_simple.hex";
+	const char *expected_path2 = "../6502/less_simple.hex";
+
+	if (eval_error.ok && binary_is_equal(actual_path2, expected_path2) ) {
+		printf("End to End less_simple Test: PASS\n");
+	} else {
+		switch (eval_error.type) {
+			case EVAL_BODY:
+				printf("Write this test\n");
+				break;
+			case UNKNOWN:
+				printf("Unknown error\n");
+				break;
+		}
 	}
 
 	return;
-
-
-
 }	

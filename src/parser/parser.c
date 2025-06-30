@@ -37,14 +37,22 @@ static void parse_instruction(Instruction *current_instruction, Parser *self) {
     self->current_token++;
 
     // Check for immediate mode
+    bool is_immediate = false;
     if (self->current_token && self->current_token->type == HASH) {
         current_instruction->mode = IMMEDIATE;
+        is_immediate = true;
         self->current_token++;
     }
 
     // Check for hex mode
     if (self->current_token && self->current_token->type == DOLLAR) {
         current_instruction->is_hex = true;
+        if (is_immediate) {
+            // Keep mode as IMMEDIATE for #$10
+            current_instruction->mode = IMMEDIATE;
+        } else {
+            current_instruction->mode = ABSOLUTE; // Set mode to ABSOLUTE for $ addressing
+        }
         self->current_token++;
     }
 
@@ -88,8 +96,8 @@ parser_error parse(Parser *self) {
                 continue;
         };
         
-        // Only push if parsing was successful
-        if (error.ok) {
+        // Only push if parsing was successful and opcode is valid
+        if (error.ok && current_instruction.opcode != 0) {
             ARRAY_PUSH(instructions, current_instruction);
         }
     }
@@ -97,6 +105,7 @@ parser_error parse(Parser *self) {
     error.type = OK;
     error.ok = true;
     error.data = instructions;
+    self->instruction_count = ARRAY_LENGTH(instructions); // Set instruction count
     return error;
 }
 

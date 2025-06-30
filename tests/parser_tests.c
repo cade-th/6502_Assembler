@@ -46,8 +46,8 @@ void run_parser_tests() {
 	{IMMEDIATE, LDX, 0, false},
 	{IMMEDIATE, LDY, 1, false},
 	{IMMEDIATE, LDA, 0, false},
-	{IMMEDIATE, STA, 0x202, true},
-	{IMMEDIATE, STY, 0x201, true},
+	{ABSOLUTE, STA, 0x202, true},
+	{ABSOLUTE, STY, 0x201, true},
     };
 
     parser_basic_test(input_1, expected_instructions_1, 1);

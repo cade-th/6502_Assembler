@@ -35,14 +35,22 @@ void run_evaluator_tests() {
 	Instruction input_1[] = {
 		{ IMMEDIATE, LDA, 16, true },
 	};
+	evaluator_simple_test(input_1, sizeof(input_1)/sizeof(Instruction));
 
-	evaluator_basic_test(input_1);
+	// less_simple.cade instructions
+	Instruction less_simple_instructions[] = {
+		{ IMMEDIATE, LDX, 0, true },
+		{ IMMEDIATE, LDY, 1, true },
+		{ IMMEDIATE, LDA, 0, true },
+		{ ABSOLUTE,  STA, 0x0202, true },
+		{ ABSOLUTE,  STY, 0x0201, true },
+	};
+	evaluator_less_simple_test(less_simple_instructions, sizeof(less_simple_instructions)/sizeof(Instruction));
 }
 
-void evaluator_basic_test(Instruction *input) {
-
-	eval_error error; 
-	Evaluator eval = eval_new(input);
+void evaluator_simple_test(Instruction *input, int num_instructions) {
+	eval_error error;
+	Evaluator eval = eval_new(input, num_instructions);
 	error = evaluate(&eval);
 
 	const char *actual_path = "simple.hex";
@@ -69,4 +77,32 @@ void evaluator_basic_test(Instruction *input) {
 	return;
 }
 
+void evaluator_less_simple_test(Instruction *input, int num_instructions) {
+	eval_error error;
+	Evaluator eval = eval_new(input, num_instructions);
+	error = evaluate(&eval);
+
+	const char *actual_path = "less_simple.hex";
+	const char *expected_path = "../6502/less_simple.hex";
+
+	if (error.ok && binary_is_equal(actual_path, expected_path)) {
+		printf("Evaluator Test: PASS\n");
+		return;
+	} else {
+		printf("Evaluator Test: FAIL\n");
+
+		switch (error.type) {
+			case EVAL_BODY:
+				printf("Write the evaluator\n");
+				break;
+			case UNKNOWN:
+				printf("Probably file IO error\n");
+				break;
+			default:
+				printf("Unknown error\n");
+				break;
+		}
+	}
+	return;
+}
 
