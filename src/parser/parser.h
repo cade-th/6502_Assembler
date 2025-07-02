@@ -19,7 +19,14 @@ ERROR(Parser_Error_t) parser_error;
 	X(LDX, 0xA2)		\
 	X(LDY, 0xA0)		\
 	X(STA, 0x8D)		\
-	X(STY, 0x8C)			
+	X(STY, 0x8C)		\
+	X(CPX, 0xEC)		\
+	X(BEQ, 0xF0)		\
+	X(CLC, 0x18)		\
+	X(ADC, 0x6D)		\
+	X(INX, 0xE8)		\
+	X(BNE, 0xD0)		\
+	X(BRK, 0x00)
 
 typedef enum {
 #define X(op, val) op = val,

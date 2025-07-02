@@ -39,6 +39,26 @@ void run_parser_tests() {
 	{Eof, " "}          
     };
 
+    // Test for test.cade - first few instructions
+    Token input_3[] = {
+        {DOT, "."},
+        {IDENT, "org"},
+        {DOLLAR, "$"},
+        {INT, "0600"},
+        {IDENT, "START"},
+        {COLON, ":"},
+        {IDENT, "LDX"},
+        {HASH, "#"},
+        {INT, "0"},
+        {IDENT, "LDY"},
+        {HASH, "#"},
+        {INT, "1"},
+        {IDENT, "LDA"},
+        {HASH, "#"},
+        {INT, "0"},
+        {Eof, " "}
+    };
+
     Instruction expected_instructions_1[] = {
 	{IMMEDIATE, LDA, 16, true},
     };
@@ -50,9 +70,16 @@ void run_parser_tests() {
 	{ABSOLUTE, STY, 0x201, true},
     };
 
+    // Expected instructions for test.cade (ignoring .org directive for now)
+    Instruction expected_instructions_3[] = {
+	{IMMEDIATE, LDX, 0, false},
+	{IMMEDIATE, LDY, 1, false},
+	{IMMEDIATE, LDA, 0, false},
+    };
+
     parser_basic_test(input_1, expected_instructions_1, 1);
     parser_basic_test(input_2, expected_instructions_2, 5);
-
+    parser_basic_test(input_3, expected_instructions_3, 3);
 }
 
 void parser_basic_test(Token *input, Instruction *expected_instructions, int expected_count) {

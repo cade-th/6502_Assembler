@@ -46,6 +46,14 @@ void run_evaluator_tests() {
 		{ ABSOLUTE,  STY, 0x0201, true },
 	};
 	evaluator_less_simple_test(less_simple_instructions, sizeof(less_simple_instructions)/sizeof(Instruction));
+
+	// Test for test.cade - first few instructions
+	Instruction test_cade_instructions[] = {
+		{ IMMEDIATE, LDX, 0, false },
+		{ IMMEDIATE, LDY, 1, false },
+		{ IMMEDIATE, LDA, 0, false },
+	};
+	evaluator_test_cade_test(test_cade_instructions, sizeof(test_cade_instructions)/sizeof(Instruction));
 }
 
 void evaluator_simple_test(Instruction *input, int num_instructions) {
@@ -102,6 +110,24 @@ void evaluator_less_simple_test(Instruction *input, int num_instructions) {
 				printf("Unknown error\n");
 				break;
 		}
+	}
+	return;
+}
+
+void evaluator_test_cade_test(Instruction *input, int num_instructions) {
+	eval_error error;
+	Evaluator eval = eval_new(input, num_instructions);
+	error = evaluate(&eval);
+
+	const char *actual_path = "test_cade.hex";
+	const char *expected_path = "../6502/test_cade.hex";
+
+	if (error.ok && binary_is_equal(actual_path, expected_path)) {
+		printf("Evaluator Test: PASS\n");
+		return;
+	} else {
+		printf("Evaluator Test: FAIL\n");
+		// ... error handling ...
 	}
 	return;
 }

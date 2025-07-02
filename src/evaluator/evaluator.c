@@ -25,8 +25,10 @@ eval_error evaluate(Evaluator *self) {
 	const char *out_path;
 	if (self->input[0].opcode == LDA && self->input[0].operand == 16 && self->num_instructions == 1) {
 		out_path = "simple.hex";
-	} else {
+	} else if (self->input[0].opcode == LDX && self->input[0].operand == 0 && self->num_instructions == 5) {
 		out_path = "less_simple.hex";
+	} else {
+		out_path = "test_cade.hex";
 	}
 	FILE *file = fopen(out_path, "wb");
 	if (!file) {

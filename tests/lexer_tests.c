@@ -48,9 +48,24 @@ void run_lexer_tests(char *source_code_simple, char *source_code_less_simple) {
             {Eof, " "}          
         };
 
+        // Test for test.cade - focusing on the first few lines to test new tokens
+        Token expected_tokens_3[] = {
+            {DOT, "."},
+            {IDENT, "org"},
+            {DOLLAR, "$"},
+            {INT, "0600"},
+            {IDENT, "START"},
+            {COLON, ":"},
+            {IDENT, "LDX"},
+            {HASH, "#"},
+            {INT, "0"},
+            {Eof, " "}
+        };
+
 	lexer_basic_test(source_code_simple, 5, expected_tokens_1);
 	lexer_basic_test(source_code_less_simple,16, expected_tokens_2);
-	}
+	lexer_basic_test("; Fibonacci calculator in 6502 Assembly\n; This calculates the nth Fibonacci number where n is stored at memory location $0200\n; and the result will be stored at $0201 (high byte) and $0202 (low byte).\n\n        .org $0600          ; Set the starting memory address for the program.\n\nSTART:\n        LDX #0             ; X = 0 (index of Fibonacci)", 10, expected_tokens_3);
+}
 
 void lexer_basic_test(char *input_1, int expected_tokens_size, Token expected_tokens[]) {
     lexer_error error;

@@ -87,7 +87,18 @@ parser_error parse(Parser *self) {
         current_instruction.is_hex = false;
         
         switch (self->current_token->type) {
+            case DOT:
+                // Skip directive: .org $0600
+                self->current_token += 4; // Skip DOT, IDENT, DOLLAR, INT
+                continue;
             case IDENT:
+                // Check if this is a label (IDENT:)
+                if (self->current_token + 1 && self->current_token[1].type == COLON) {
+                    // Skip label: START:
+                    self->current_token += 2; // Skip IDENT, COLON
+                    continue;
+                }
+                // This is an actual instruction
                 parse_instruction(&current_instruction, self);
                 break;
             default:
