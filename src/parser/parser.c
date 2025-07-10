@@ -88,7 +88,7 @@ parser_error parse(Parser *self) {
         
         switch (self->current_token->type) {
             case DOT:
-                // Skip directive: .org $0600
+                // Write a parse_directive here 
                 self->current_token += 4; // Skip DOT, IDENT, DOLLAR, INT
                 continue;
             case IDENT:

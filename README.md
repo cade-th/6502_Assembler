@@ -1,7 +1,7 @@
-# Outline
+### TODO:
 
-Lexer -> array of tokens
-array of tokens -> parser
-parser -> Abstract Syntax Tree
-AST -> evaluator
-evaluator -> array of instructions -> generate binary
+1. Implement directives
+2. Implement Include directive
+3. Implement labels
+4. Implement Macros
+5. Implement the rest of the instructions

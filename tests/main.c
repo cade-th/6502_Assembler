@@ -2,6 +2,7 @@
 #include "../src/lexer/lexer.h"
 #include "../src/parser/parser.h"
 #include "../src/evaluator/evaluator.h"
+#include "../src/emu/cpu.h"
 
 int main() {
 
@@ -23,6 +24,7 @@ int main() {
 	run_parser_tests();
 	run_evaluator_tests();
 	run_end_to_end_tests();
+	run_cpu_tests();
 
 	return 0;
 }
